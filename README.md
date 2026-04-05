@@ -32,7 +32,60 @@ EdgeAGI is an open-source decentralized AI swarm orchestrator that enables users
 
 ## Quick Start
 
-### Prerequisites
+### Option 1: Docker (Recommended)
+
+The easiest way to run EdgeAGI is with Docker Compose.
+
+#### Prerequisites
+
+- Docker Desktop installed (for Mac M2, ensure you have the ARM version)
+- Docker Compose (included with Docker Desktop)
+
+#### Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd edgeagi
+   ```
+
+2. **Create environment file:**
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Build and start services:**
+   ```bash
+   docker-compose up --build
+   ```
+
+4. **Access the application:**
+   - Frontend Dashboard: http://localhost:3000
+   - Backend API: http://localhost:8000
+   - API Documentation: http://localhost:8000/docs
+
+#### Docker Commands
+
+```bash
+# Start in background
+docker-compose up -d --build
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+
+# Rebuild after changes
+docker-compose up --build
+
+# Clean up everything
+docker-compose down -v
+```
+
+### Option 2: Local Development
+
+#### Prerequisites
 
 - Python 3.9+
 - Node.js 18+
