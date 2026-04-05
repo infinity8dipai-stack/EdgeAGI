@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: edgeagi-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DATABASE_URL=sqlite:///./edgeagi.db
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      - LOG_LEVEL=INFO
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+    volumes:
+      - ./backend:/app
+      - backend-data:/app/data
+    restart: unless-stopped
+    networks:
+      - edgeagi-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000/api
+    container_name: edgeagi-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - edgeagi-network
+
+volumes:
+  backend-data:
+
+networks:
+  edgeagi-network:
+    driver: bridge
